@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BioSampleSet>
+<BioSample submission_date="2020-01-01T00:00:00.000" last_update="2020-01-01T00:00:00.000" publication_date="2020-01-01T00:00:00.000" access="public" id="999" accession="SAMN99999999">
+  <Ids>
+    <Id db="BioSample" is_primary="1">SAMN99999999</Id>
+  </Ids>
+  <Description>
+    <Title>Good record</Title>
+  </Description>
+  <Attributes>
+    <Attribute attribute_name="organism" harmonized_name="organism">Homo sapiens</Attribute>
+  </Attributes>
+</BioSample>
+<BioSample submission_date="2020-01-01T00:00:00.000" access="public" id="998">
+  <Ids>
+    <Id db="BioSample" is_primary="1">BROKEN</Id>
+  </Ids>
+  <Description>
+    <Title>Record missing accession attribute</Title>
+  </Description>
+  <Attributes>
+    <Attribute attribute_name="organism">test</Attribute>
+  </Attributes>
+</BioSample>
+<BioSample submission_date="2020-01-01T00:00:00.000" last_update="2020-01-01T00:00:00.000" access="public" id="997" accession="SAMN99999997">
+  <Ids>
+    <Id db="BioSample" is_primary="1">SAMN99999997</Id>
+  </Ids>
+  <Description>
+    <Title>Record after bad one</Title>
+  </Description>
+  <Attributes>
+    <Attribute attribute_name="strain" harmonized_name="strain">ABC</Attribute>
+  </Attributes>
+</BioSample>
+</BioSampleSet>
