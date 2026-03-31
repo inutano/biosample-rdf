@@ -109,9 +109,7 @@ impl Serializer for JsonLdSerializer {
             additional_property,
         };
 
-        let json = serde_json::to_string_pretty(&obj).map_err(|e| {
-            std::io::Error::new(std::io::ErrorKind::Other, e)
-        })?;
+        let json = serde_json::to_string_pretty(&obj).map_err(std::io::Error::other)?;
         write!(writer, "\n{}", json)?;
         Ok(())
     }

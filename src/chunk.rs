@@ -85,7 +85,7 @@ impl ChunkWriter {
         };
 
         let manifest_json = serde_json::to_string_pretty(&manifest)
-            .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
+            .map_err(std::io::Error::other)?;
         fs::write(self.output_dir.join("manifest.json"), manifest_json)?;
 
         // Final progress save

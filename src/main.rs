@@ -180,7 +180,7 @@ fn process_records<R: std::io::BufRead, W: Write>(
                 chunk_writer.add_record(record)?;
                 *records_processed += 1;
                 // 8. Print progress every 100k records
-                if *records_processed % 100_000 == 0 {
+                if (*records_processed).is_multiple_of(100_000) {
                     eprintln!("  Progress: {} records processed", records_processed);
                 }
             }

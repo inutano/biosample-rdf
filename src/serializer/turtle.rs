@@ -44,7 +44,7 @@ impl Serializer for TurtleSerializer {
         // Each entry is the text after the two-space indent, WITHOUT the trailing ; or .
         let mut po_lines: Vec<String> = Vec::new();
 
-        po_lines.push(format!("a ddbjont:BioSampleRecord"));
+        po_lines.push("a ddbjont:BioSampleRecord".to_string());
         po_lines.push(format!("dct:identifier \"{}\"", escape_turtle_string(acc)));
 
         if let Some(title) = &record.title {
@@ -85,13 +85,8 @@ impl Serializer for TurtleSerializer {
             // This one we write specially at the end with " ."
             // Write the main subject line
             writeln!(writer, "idorg:{}", acc)?;
-            let last = po_lines.len() - 1;
-            for (i, line) in po_lines.iter().enumerate() {
-                if i < last {
-                    writeln!(writer, "  {} ;", line)?;
-                } else {
-                    writeln!(writer, "  {} ;", line)?;
-                }
+            for line in po_lines.iter() {
+                writeln!(writer, "  {} ;", line)?;
             }
             // Write additionalProperty block with " ."
             writeln!(writer, "{} .", ap_block)?;

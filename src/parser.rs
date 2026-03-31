@@ -40,7 +40,7 @@ impl<R: BufRead> BioSampleParser<R> {
             self.buf.clear();
             let event = self.reader.read_event_into(&mut self.buf).map_err(|e| {
                 BsError::XmlParse {
-                    offset: self.reader.error_position() as u64,
+                    offset: self.reader.error_position(),
                     message: e.to_string(),
                 }
             })?;
@@ -48,7 +48,7 @@ impl<R: BufRead> BioSampleParser<R> {
             match event {
                 Event::Start(ref e) if e.name().as_ref() == b"BioSample" => {
                     // Extract attributes from the <BioSample> start tag before moving on
-                    let offset = self.reader.buffer_position() as u64;
+                    let offset = self.reader.buffer_position();
                     let mut accession: Option<String> = None;
                     let mut submission_date: Option<String> = None;
                     let mut last_update: Option<String> = None;
@@ -118,7 +118,7 @@ impl<R: BufRead> BioSampleParser<R> {
             self.buf.clear();
             let event = self.reader.read_event_into(&mut self.buf).map_err(|e| {
                 BsError::XmlParse {
-                    offset: self.reader.error_position() as u64,
+                    offset: self.reader.error_position(),
                     message: e.to_string(),
                 }
             })?;
@@ -143,7 +143,7 @@ impl<R: BufRead> BioSampleParser<R> {
                         current_attr_harmonized = None;
                         current_attr_display = None;
 
-                        let offset = self.reader.buffer_position() as u64;
+                        let offset = self.reader.buffer_position();
                         for attr_result in e.attributes() {
                             let attr = attr_result.map_err(|err| BsError::XmlParse {
                                 offset,
@@ -213,7 +213,7 @@ impl<R: BufRead> BioSampleParser<R> {
                         let mut harmonized: Option<String> = None;
                         let mut display: Option<String> = None;
 
-                        let offset = self.reader.buffer_position() as u64;
+                        let offset = self.reader.buffer_position();
                         for attr_result in e.attributes() {
                             let attr = attr_result.map_err(|err| BsError::XmlParse {
                                 offset,
@@ -248,13 +248,13 @@ impl<R: BufRead> BioSampleParser<R> {
                 Event::Text(ref e) => {
                     if in_title {
                         let text = e.unescape().map_err(|err| BsError::XmlParse {
-                            offset: self.reader.buffer_position() as u64,
+                            offset: self.reader.buffer_position(),
                             message: format!("text unescape error: {}", err),
                         })?;
                         title_text.push_str(&text);
                     } else if in_attribute {
                         let text = e.unescape().map_err(|err| BsError::XmlParse {
-                            offset: self.reader.buffer_position() as u64,
+                            offset: self.reader.buffer_position(),
                             message: format!("text unescape error: {}", err),
                         })?;
                         current_attr_text.push_str(&text);
