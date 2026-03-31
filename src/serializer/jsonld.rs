@@ -12,6 +12,10 @@ struct JsonLdContext {
     base: &'static str,
     #[serde(rename = "@vocab")]
     vocab: &'static str,
+    dct: &'static str,
+    ddbjont: &'static str,
+    rdfs: &'static str,
+    xsd: &'static str,
 }
 
 /// A typed date-time literal: `{"@value": "...", "@type": "xsd:dateTime"}`
@@ -97,6 +101,10 @@ impl Serializer for JsonLdSerializer {
             context: JsonLdContext {
                 base: "http://identifiers.org/biosample/",
                 vocab: "http://schema.org/",
+                dct: "http://purl.org/dc/terms/",
+                ddbjont: "http://ddbj.nig.ac.jp/ontologies/biosample/",
+                rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+                xsd: "http://www.w3.org/2001/XMLSchema#",
             },
             r#type: "ddbjont:BioSampleRecord",
             id: record.iri(),

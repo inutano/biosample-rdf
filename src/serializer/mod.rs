@@ -11,7 +11,7 @@ pub const PREFIX_DCT: &str = "http://purl.org/dc/terms/";
 pub const PREFIX_DDBJ: &str = "http://ddbj.nig.ac.jp/biosample/";
 pub const PREFIX_DDBJONT: &str = "http://ddbj.nig.ac.jp/ontologies/biosample/";
 pub const PREFIX_RDFS: &str = "http://www.w3.org/2000/01/rdf-schema#";
-pub const PREFIX_XSD: &str = "https://www.w3.org/2001/XMLSchema#";
+pub const PREFIX_XSD: &str = "http://www.w3.org/2001/XMLSchema#";
 
 pub trait Serializer {
     fn write_header<W: Write>(&self, writer: &mut W) -> std::io::Result<()>;

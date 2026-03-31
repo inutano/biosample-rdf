@@ -170,7 +170,7 @@ mod tests {
         assert!(s.contains("@prefix dct: <http://purl.org/dc/terms/> ."));
         assert!(s.contains("@prefix ddbjont: <http://ddbj.nig.ac.jp/ontologies/biosample/> ."));
         assert!(s.contains("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."));
-        assert!(s.contains("@prefix xsd: <https://www.w3.org/2001/XMLSchema#> ."));
+        assert!(s.contains("@prefix xsd: <http://www.w3.org/2001/XMLSchema#> ."));
     }
 
     #[test]

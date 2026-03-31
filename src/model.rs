@@ -25,6 +25,26 @@ impl BioSampleRecord {
     }
 }
 
+use percent_encoding::{AsciiSet, CONTROLS, utf8_percent_encode};
+
+/// Characters that must be percent-encoded in an IRI fragment.
+/// Unreserved characters (- _ . ~) are intentionally excluded per RFC 3986.
+const IRI_FRAGMENT_ENCODE_SET: &AsciiSet = &CONTROLS
+    .add(b' ')
+    .add(b'"')
+    .add(b'#')
+    .add(b'%')
+    .add(b'<')
+    .add(b'>')
+    .add(b'[')
+    .add(b']')
+    .add(b'{')
+    .add(b'}')
+    .add(b'|')
+    .add(b'^')
+    .add(b'`')
+    .add(b'\\');
+
 impl Attribute {
     /// Returns the preferred name for this attribute (harmonized_name > attribute_name).
     pub fn preferred_name(&self) -> &str {
@@ -32,12 +52,10 @@ impl Attribute {
     }
 
     /// Returns the property IRI fragment for this attribute, URL-encoded.
+    /// Unreserved characters (- _ . ~) are preserved per RFC 3986.
     pub fn property_iri(&self, accession: &str) -> String {
         let name = self.preferred_name();
-        let encoded = percent_encoding::utf8_percent_encode(
-            name,
-            percent_encoding::NON_ALPHANUMERIC,
-        );
+        let encoded = utf8_percent_encode(name, IRI_FRAGMENT_ENCODE_SET);
         format!("http://ddbj.nig.ac.jp/biosample/{}#{}", accession, encoded)
     }
 }
@@ -103,10 +121,25 @@ mod tests {
             display_name: None,
             value: Some("test".to_string()),
         };
+        // Underscore is an unreserved character (RFC 3986) and must NOT be encoded.
+        // The harmonized_name "sample_name" should appear as-is in the IRI.
         assert_eq!(
             attr.property_iri("SAMN00000002"),
-            "http://ddbj.nig.ac.jp/biosample/SAMN00000002#sample%5Fname"
+            "http://ddbj.nig.ac.jp/biosample/SAMN00000002#sample_name"
         );
+    }
+
+    #[test]
+    fn test_attribute_property_iri_encodes_spaces_in_name() {
+        let attr = Attribute {
+            attribute_name: "sample name".to_string(),
+            harmonized_name: None,
+            display_name: None,
+            value: None,
+        };
+        // Space must be encoded; underscore/hyphen must not.
+        let iri = attr.property_iri("SAMN00000002");
+        assert!(iri.contains("sample%20name"), "space should be encoded as %20, got: {}", iri);
     }
 
     #[test]
