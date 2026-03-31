@@ -1,4 +1,5 @@
 mod error;
+mod model;
 
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
